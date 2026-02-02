@@ -125,7 +125,7 @@ export default function CollectModal({
                         type="submit"
                         className=" bg-[#7eb20f] text-white capitalize px-5 py-1 rounded-lg"
                         value="collect"
-                        onClick={(e) => setType(e.target.value)}
+                        onClick={(e: any) => setType(e.target.value)}
                     >
                         add
                     </button>

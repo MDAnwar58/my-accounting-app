@@ -7,7 +7,7 @@ import {
 } from "date-fns";
 
 export default function AgoDays({ account }: { account?: any }) {
-    const getAgoDetails = (dateString) => {
+    const getAgoDetails = (dateString: any) => {
         if (!dateString) {
             console.error("Invalid or no date string provided");
             return "Invalid date"; // Return a default message or value
@@ -33,7 +33,7 @@ export default function AgoDays({ account }: { account?: any }) {
             return "Invalid date";
         }
     };
-    const details = getAgoDetails(account.date_time);
+    const details = getAgoDetails(account.date_time) as any;
     const { daysAgo, hoursAgo, minutesAgo } = details;
 
     let agoDaysAndHours = "No date provided";

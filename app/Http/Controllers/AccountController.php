@@ -112,6 +112,7 @@ class AccountController extends Controller
         $year_name = date("Y", strtotime($request->date));
         $month = Month::where('name', $month_name)->first();
         $year = Year::where('name', $year_name)->first();
+
         $account = Account::find($id);
         $account->title = $request->title;
         $account->amount = $request->amount;

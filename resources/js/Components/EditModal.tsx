@@ -9,10 +9,12 @@ import "react-clock/dist/Clock.css";
 import { log } from "console";
 
 interface Props {
+    auth?: any;
     setOpenModal?: any;
     openModal?: any;
     account?: any;
     updateAccount?: any;
+    userId?: any;
     title?: any;
     amount?: any;
     price?: any;
@@ -25,10 +27,12 @@ interface Props {
 }
 
 export default function EditModal({
+    auth,
     setOpenModal,
     openModal,
     account,
     updateAccount,
+    userId,
     title,
     amount,
     price,
@@ -39,7 +43,7 @@ export default function EditModal({
     setImage,
     errors,
 }: Props) {
-    const getTimeFromDatetime = (dateString) => {
+    const getTimeFromDatetime = (dateString: any) => {
         if (!dateString) {
             // console.error("Invalid or no date string provided");
             return { Date: "Invalid date", Time: "Invalid time" }; // Return default messages or values
@@ -79,6 +83,11 @@ export default function EditModal({
                         <CrossIcon />
                     </button>
                 </div>
+                <Input
+                    className="w-full hidden"
+                    inputRef={userId}
+                    defaultValue={auth.user.id}
+                />
                 <div className="px-5">
                     <div className="mb-3">
                         <InputLabel>বিষয়</InputLabel>

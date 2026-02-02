@@ -28,7 +28,7 @@ class UpdateRequest extends FormRequest
             'price' => 'required|max:50',
             'date' => 'required',
             'time' => 'nullable',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,webp,ico,|max:20480',
+            'image' => 'nullable|mimes:png,jpg,jpeg,gif,webp,ico,|max:20480',
         ];
     }
 }

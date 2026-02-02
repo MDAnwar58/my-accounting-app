@@ -4,14 +4,15 @@ import { PageProps } from "@/types";
 import Card from "@/Components/Card";
 import Collect from "@/Assets/images/money.png";
 import Expense from "@/Assets/images/expense.png";
-import additionalMoney from "@/Assets/images/money1.png";
-import { CrossIcon, PlusIcon } from "@/Components/Icons";
 import useAccountContext from "@/Contexts/AccountContext";
 import CollectModal from "@/Components/CollectModal";
 import ExpenseModal from "@/Components/ExpenseModal";
 import { useEffect } from "react";
 import AccountList from "@/Components/AccountList";
 import FilterAndSearch from "@/Components/FilterAndSearch";
+import DashboardCollectArea from "./Components/DashboardCollectArea";
+import DashboardExpenseArea from "./Components/DashboardExpenseArea";
+import DashboardTotalMoneyArea from "./Components/DashboardTotalMoneyArea";
 
 export default function Dashboard({ auth }: PageProps) {
     const {
@@ -74,69 +75,21 @@ export default function Dashboard({ auth }: PageProps) {
                 <div className="max-w-7xl mx-auto lg:px-8 sm:px-6 px-3">
                     <Card className="md:flex">
                         <div className="flex items-center md:w-8/12 w-full">
-                            <div className="p-6 text-gray-900 w-6/12 text-center">
-                                <img
-                                    src={Collect}
-                                    className="w-[200px] mx-auto"
-                                    alt="জমা"
-                                />
-                                <h2 className="pt-2">আয়</h2>
-                                <h3 className="pb-2">
-                                    total collect:-{" "}
-                                    <span className="text-green-400">
-                                        {collectMoney}
-                                        tk
-                                    </span>
-                                </h3>
-                                <button
-                                    className="mx-auto bg-[#7eb20f] text-white rounded-lg p-2"
-                                    onClick={() => setOpenCollectModal(true)}
-                                >
-                                    <PlusIcon />
-                                </button>
-                            </div>
-                            <div className="p-6 text-gray-900 w-6/12 text-center">
-                                <img
-                                    src={Expense}
-                                    className="w-[200px] mx-auto"
-                                    alt="জমা"
-                                />
-                                <h2 className="pt-2">খরচ</h2>
-                                <h3 className="pb-2">
-                                    total exponse:-{" "}
-                                    <span className="text-red-400">
-                                        {expenseMoney}tk
-                                    </span>
-                                </h3>
-
-                                <button
-                                    className="mx-auto bg-[#7eb20f] text-white rounded-lg p-2"
-                                    onClick={() => setOpenExpenseModal(true)}
-                                >
-                                    <PlusIcon />
-                                </button>
-                            </div>
-                        </div>
-                        <div className="p-6 text-gray-900 md:w-4/12 w-full text-center">
-                            <img
-                                src={additionalMoney}
-                                className="w-[200px] mx-auto"
-                                alt="জমা"
+                            <DashboardCollectArea
+                                Collect={Collect}
+                                collectMoney={collectMoney}
+                                setOpenCollectModal={setOpenCollectModal}
                             />
-
-                            <h3 className="pt-3 pb-2 text-green-400">
-                                total collect:- {collectMoney}tk
-                            </h3>
-                            <h3 className="pb-2 text-red-400">
-                                total exponse:- {expenseMoney}tk
-                            </h3>
-                            <h2 className="pb-3">
-                                অবশিষ্ট মোট টাকার হিসাব:-{" "}
-                                <b className=" text-yellow-300 font-bold">
-                                    {collectMoney - expenseMoney}tk
-                                </b>
-                            </h2>
+                            <DashboardExpenseArea
+                                Expense={Expense}
+                                expenseMoney={expenseMoney}
+                                setOpenExpenseModal={setOpenExpenseModal}
+                            />
                         </div>
+                        <DashboardTotalMoneyArea
+                            collectMoney={collectMoney}
+                            expenseMoney={expenseMoney}
+                        />
                     </Card>
                 </div>
             </div>
@@ -153,6 +106,7 @@ export default function Dashboard({ auth }: PageProps) {
                 openEditModal={openEditModal}
                 setOpenEditModal={setOpenEditModal}
                 updateAccount={updateAccount}
+                userId={userId}
                 title={title}
                 amount={amount}
                 price={price}

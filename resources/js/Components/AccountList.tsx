@@ -14,6 +14,7 @@ interface Props {
     openEditModal?: any;
     setOpenEditModal?: any;
     updateAccount?: any;
+    userId?: any;
     title?: any;
     amount?: any;
     price?: any;
@@ -36,6 +37,7 @@ export default function AccountList({
     openEditModal,
     setOpenEditModal,
     updateAccount,
+    userId,
     title,
     amount,
     price,
@@ -47,12 +49,12 @@ export default function AccountList({
     errors,
     onLoadMoreHandle,
 }: Props) {
-    const getDate = (date) => {
+    const getDate = (date: any) => {
         // Replace the space with 'T' to make it ISO 8601 compliant
         const isoTimestamp = date.replace(" ", "T");
 
         // Parse the timestamp into a Date object
-        const newDate = new Date(isoTimestamp);
+        const newDate = new Date(isoTimestamp) as any;
 
         // Check if date is valid
         if (isNaN(newDate)) {
@@ -68,7 +70,7 @@ export default function AccountList({
         const formattedDate = `${day} ${month}, ${year}`;
         return formattedDate;
     };
-    const getTime = (dateString) => {
+    const getTime = (dateString: any) => {
         // Ensure the dateString is in a format that can be understood by new Date()
         const isoTimestamp = dateString.replace(" ", "T");
         const date = new Date(isoTimestamp);
@@ -83,7 +85,7 @@ export default function AccountList({
 
         return timeString;
     };
-    const getAgoDays = (dateString) => {
+    const getAgoDays = (dateString: any) => {
         if (!dateString) {
             console.error("Invalid or no date string provided");
             return "Invalid date"; // Return a default message or value
@@ -91,7 +93,7 @@ export default function AccountList({
 
         // Replace the space with 'T' to make it ISO 8601 compliant
         const isoTimestamp = dateString.replace(" ", "T");
-        const pastDate = new Date(isoTimestamp);
+        const pastDate = new Date(isoTimestamp) as any;
 
         // Check if the pastDate is valid
         if (isNaN(pastDate.getTime())) {
@@ -99,7 +101,7 @@ export default function AccountList({
             return "Invalid date"; // Return a default message or value
         }
 
-        const currentDate = new Date();
+        const currentDate = new Date() as any;
         const difference = currentDate - pastDate;
         const daysAgo = Math.floor(difference / (1000 * 60 * 60 * 24));
 
@@ -109,7 +111,7 @@ export default function AccountList({
         <Fragment>
             <div className="max-w-7xl mx-auto lg:px-8 sm:px-6 px-3 mb-5">
                 {accounts.length > 0 ? (
-                    accounts.map((account, index) => (
+                    accounts.map((account: any, index: any) => (
                         <div key={index} className="mb-3 ">
                             <Card className="px-10 py-5 sm:flex items-center justify-between">
                                 <div className="sm:flex items-center">
@@ -178,10 +180,12 @@ export default function AccountList({
                     <Card className="text-center">Account list not found</Card>
                 )}
                 <EditModal
+                    auth={auth}
                     setOpenModal={setOpenEditModal}
                     openModal={openEditModal}
                     account={account}
                     updateAccount={updateAccount}
+                    userId={userId}
                     title={title}
                     amount={amount}
                     price={price}

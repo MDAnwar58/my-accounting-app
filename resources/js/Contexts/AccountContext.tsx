@@ -3,29 +3,29 @@ import { failMsg, successMsg, warningMsg } from "@/notify";
 import axios from "axios";
 
 export default function useAccountContext() {
-    const [openCollectModal, setOpenCollectModal] = useState(false);
-    const [openExpenseModal, setOpenExpenseModal] = useState(false);
-    const [openEditModal, setOpenEditModal] = useState(false);
-    const [limit, setLimit] = useState(10);
-    const [length, setLangth] = useState(0);
-    const [accounts, setAccounts] = useState([]);
-    const [account, setAccount] = useState({});
+    const [openCollectModal, setOpenCollectModal] = useState<any>(false);
+    const [openExpenseModal, setOpenExpenseModal] = useState<any>(false);
+    const [openEditModal, setOpenEditModal] = useState<any>(false);
+    const [limit, setLimit] = useState<any>(10);
+    const [length, setLangth] = useState<any>(0);
+    const [accounts, setAccounts] = useState<any>([]);
+    const [account, setAccount] = useState<any>({});
     const userId = useRef<HTMLInputElement>(null);
     const title = useRef<HTMLInputElement>(null);
     const amount = useRef<HTMLInputElement>(null);
     const price = useRef<HTMLInputElement>(null);
     const date = useRef<HTMLInputElement>(null);
-    const [time, setTime] = useState(new Date());
-    const [type, setType] = useState("");
-    const [image, setImage] = useState("");
-    const [errors, setErrors] = useState([]);
+    const [time, setTime] = useState<any>(new Date());
+    const [type, setType] = useState<any>("");
+    const [image, setImage] = useState<any>("");
+    const [errors, setErrors] = useState<any>([]);
 
-    const [user, setUser] = useState({});
-    const [search, setSearch] = useState("");
-    const [collectMoney, setCollectMoney] = useState(0);
-    const [expenseMoney, setExpenseMoney] = useState(0);
+    const [user, setUser] = useState<any>({});
+    const [search, setSearch] = useState<any>("");
+    const [collectMoney, setCollectMoney] = useState<any>(0);
+    const [expenseMoney, setExpenseMoney] = useState<any>(0);
 
-    const timeStringHandle = (time_string) => {
+    const timeStringHandle = (time_string: any) => {
         const date = new Date(time_string);
         const timeString = date.toLocaleTimeString("en-GB", { hour12: false });
         return timeString;
@@ -33,12 +33,16 @@ export default function useAccountContext() {
 
     const addAccountCollect = async (e: React.FormEvent) => {
         e.preventDefault();
+        let user_id = userId.current === null ? "" : userId?.current.value;
+        let Title = title.current === null ? "" : title?.current.value;
+        let Price = price.current === null ? "" : price?.current.value;
+        let InputDate = date.current === null ? "" : date?.current.value;
         try {
             const payload = {
-                user_id: userId.current.value,
-                title: title.current.value,
-                price: price.current.value,
-                date: date.current.value,
+                user_id: user_id!,
+                title: Title!,
+                price: Price!,
+                date: InputDate!,
                 time: timeStringHandle(time),
                 type: type,
             };
@@ -46,53 +50,62 @@ export default function useAccountContext() {
             if (response.data.status === "collect_success") {
                 successMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getCollectMoney(userId.current.value);
+                getCollectMoney(user_id);
+                getExpenseMoney(user_id);
                 setErrors([]);
                 setOpenCollectModal(false);
             } else if (response.data.status === "expense_success") {
                 warningMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getExpenseMoney(userId.current.value);
+                getExpenseMoney(user_id);
+                getExpenseMoney(user_id);
                 setErrors([]);
                 setOpenCollectModal(false);
             }
-        } catch (error) {
+        } catch (error: any) {
             setErrors(error.response.data.errors);
         }
     };
 
     const addExpenseCollect = async (e: React.FormEvent) => {
         e.preventDefault();
+        let user_id = userId.current === null ? "" : userId?.current.value;
+        let Title = title.current === null ? "" : title?.current.value;
+        let Amount = amount.current === null ? "" : amount?.current.value;
+        let Price = price.current === null ? "" : price?.current.value;
+        let InputDate = date.current === null ? "" : date?.current.value;
         try {
             const formData = new FormData();
-            formData.append("user_id", userId.current.value);
-            formData.append("title", title.current.value);
-            formData.append("amount", amount.current.value);
-            formData.append("price", price.current.value);
+            formData.append("user_id", user_id!);
+            formData.append("title", Title!);
+            formData.append("amount", Amount!);
+            formData.append("price", Price!);
             formData.append("type", type);
-            formData.append("date", date.current.value);
+            formData.append("date", InputDate!);
             formData.append("time", timeStringHandle(time));
             formData.append("image", image);
             const response = await axios.post("/api/account-store", formData);
             if (response.data.status === "collect_success") {
                 successMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getCollectMoney(userId.current.value);
+                getCollectMoney(user_id);
+                getExpenseMoney(user_id);
                 setErrors([]);
                 setOpenExpenseModal(false);
             } else if (response.data.status === "expense_success") {
                 warningMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getCollectMoney(userId.current.value);
+                getCollectMoney(user_id);
+                getExpenseMoney(user_id);
                 setErrors([]);
                 setOpenExpenseModal(false);
             }
-        } catch (error) {
+        } catch (error: any) {
             setErrors(error.response.data.errors);
         }
     };
 
-    const getAccounts = async (User, Limit, Search) => {
+    const getAccounts = async (User: any, Limit: any, Search: any) => {
         const response = await axios.get(
             `/api/get-accounts?user_id=${User.id}limit=${Limit}&search=${Search}`
         );
@@ -100,11 +113,11 @@ export default function useAccountContext() {
         setAccounts(response.data.accounts);
     };
 
-    const getCollectMoney = async (userId) => {
+    const getCollectMoney = async (userId: any) => {
         const response = await axios.get(`/api/get-collect-money/${userId}`);
         setCollectMoney(response.data);
     };
-    const getExpenseMoney = async (userId) => {
+    const getExpenseMoney = async (userId: any) => {
         const response = await axios.get(`/api/get-expense-money/${userId}`);
         setExpenseMoney(response.data);
     };
@@ -123,7 +136,6 @@ export default function useAccountContext() {
         const response = await axios.get(`/api/account-edit/${id}`);
         setAccount(response.data);
         const dateString = response.data.date_time;
-        // Split the dateString to separate date and time
         const [datePart, timePart] = dateString.split(" ");
         setTime(timePart);
         setOpenEditModal(true);
@@ -131,48 +143,52 @@ export default function useAccountContext() {
 
     const updateAccount = async (e: React.FormEvent, id: string) => {
         e.preventDefault();
-        // console.log(time);
+        let Amount = amount.current === null ? "" : amount?.current.value;
+        let user_id = userId.current === null ? "" : userId?.current.value;
+        let Title = title.current === null ? "" : title?.current.value;
+        let Price = price.current === null ? "" : price?.current.value;
+        let InputDate = date.current === null ? "" : date?.current.value;
+
         try {
             const formData = new FormData();
-            formData.append("user_id", userId.current.value);
-            formData.append("title", title.current.value);
-            formData.append("amount", amount.current.value);
-            formData.append("price", price.current.value);
+            formData.append("user_id", user_id!);
+            formData.append("title", Title!);
+            formData.append("amount", Amount);
+            formData.append("price", Price!);
             formData.append("type", type);
-            formData.append("date", date.current.value);
+            formData.append("date", InputDate!);
             formData.append("time", time);
             formData.append("image", image);
+
             const response = await axios.post(
                 `/api/account-update/${id}`,
                 formData
             );
-            // console.log(response.data);
-
             if (response.data.status === "collect_success") {
                 successMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getCollectMoney(userId.current.value);
+                getCollectMoney(user_id);
                 setErrors([]);
                 setOpenEditModal(false);
             } else if (response.data.status === "expense_success") {
                 warningMsg(response.data.msg);
                 getAccounts(user, limit, search);
-                getExpenseMoney(userId.current.value);
+                getExpenseMoney(user_id);
                 setErrors([]);
                 setOpenEditModal(false);
             }
-        } catch (error) {
+        } catch (error: any) {
             setErrors(error.response.data.errors);
         }
     };
 
-    const onSearchHanlde = (e) => {
+    const onSearchHanlde = (e: any) => {
         setSearch(e.target.value);
         getAccounts(user, limit, e.target.value);
     };
 
-    const onLoadMoreHandle = (limitNewValue) => {
-        setLimit((prev) => prev + limitNewValue);
+    const onLoadMoreHandle = (limitNewValue: any) => {
+        setLimit((prev: any) => prev + limitNewValue);
         getAccounts(user, limit + limitNewValue, search);
     };
 

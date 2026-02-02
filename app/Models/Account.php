@@ -37,7 +37,7 @@ class Account extends Model
             return $path;
         } else {
             if ($galleryFile) {
-                return $galleryFile->image;
+                return $galleryFile;
             } else {
                 return null;
             }

@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const successMsg = (msg) => {
+const successMsg = (msg: any) => {
     toast.success("😍 " + msg, {
         position: "top-right",
         autoClose: 3000,
@@ -13,7 +13,7 @@ const successMsg = (msg) => {
         theme: "light",
     });
 };
-const warningMsg = (msg) => {
+const warningMsg = (msg: any) => {
     toast.success("😏 " + msg, {
         position: "top-right",
         autoClose: 3000,
@@ -25,7 +25,7 @@ const warningMsg = (msg) => {
         theme: "light",
     });
 };
-const failMsg = (msg) => {
+const failMsg = (msg: any) => {
     toast.error("🤬 " + msg, {
         position: "top-right",
         autoClose: 3000,

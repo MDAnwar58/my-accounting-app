@@ -113,7 +113,7 @@ export default function ExpenseModal({
                         <Input
                             type="file"
                             className="w-full"
-                            onChange={(e) => setImage(e.target.files[0])}
+                            onChange={(e: any) => setImage(e.target.files[0])}
                         />
                         {errors.image && (
                             <span className="text-red-500">{errors.image}</span>
@@ -132,7 +132,7 @@ export default function ExpenseModal({
                         type="submit"
                         className=" bg-[#7eb20f] text-white capitalize px-5 py-1 rounded-lg"
                         value="expense"
-                        onClick={(e) => setType(e.target.value)}
+                        onClick={(e: any) => setType(e.target.value)}
                     >
                         add
                     </button>

@@ -24,6 +24,10 @@ export default function Welcome({
         document.getElementById("background")?.classList.add("!hidden");
     };
 
+    const counter = () => {
+        console.log("counter");
+    }
+
     return (
         <>
             <Head title="Welcome" />
